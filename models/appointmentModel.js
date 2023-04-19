@@ -25,6 +25,18 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    source: {
+      type: String,
+      required: true,
+    },
+    destination: {
+      type: String,
+      required: true,
+    },
+    required_space: {
+      type: Number,
+      required: true,
+    },
     status: {
       type: String,
       required: true,

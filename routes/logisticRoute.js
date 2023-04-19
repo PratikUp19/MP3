@@ -60,6 +60,7 @@ router.get(
     try {
       const logistic = await Logistic.findOne({ userId: req.body.userId });
       const appointments = await Appointment.find({ logisticId: logistic._id });
+      console.log(appointments);
       res.status(200).send({
         message: "Appointments fetched successfully",
         success: true,

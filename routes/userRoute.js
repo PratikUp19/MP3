@@ -187,8 +187,45 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     req.body.status = "pending";
     req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
     req.body.time = moment(req.body.time, "HH:mm").toISOString();
+    // console.log(req.body);
     const newAppointment = new Appointment(req.body);
     await newAppointment.save();
+    const a = await Logistic.findById(req.body.logisticId);
+    console.log(req.body.required_space);
+    // await Logistic.findOneAndUpdate(
+    //   { userId: req.body.logisticId },
+    //   {
+    //     firstName: a.firstName,
+    //     lastName: a.lastName,
+    //     phoneNumber: a.phoneNumber,
+    //     source: a.source,
+    //     destination: a.destination,
+    //     description: a.description,
+    //     feePerkm: a.feePerkm,
+    //     deparaturAndArrival_timings: a.deparaturAndArrival_timings,
+    //     available_space: 7
+    //   }
+    // );
+  Logistic.findById(req.body.logisticId, (err, doc) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  // Update the document properties
+  doc.available_space =a.available_space-req.body.required_space;
+
+  // Save the updated document
+  doc.save((err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    console.log('Document updated successfully!');
+  });
+});
+
     //pushing notification to logistic based on his userid
     const user = await User.findOne({ _id: req.body.logisticInfo.userId });
     user.unseenNotifications.push({
@@ -213,18 +250,12 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
 
 router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
-    const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
-    const fromTime = moment(req.body.time, "HH:mm")
-      .subtract(1, "hours")
-      .toISOString();
-    const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
+    // console.log("1")
     const logisticId = req.body.logisticId;
-    const appointments = await Appointment.find({
-      logisticId,
-      date,
-      time: { $gte: fromTime, $lte: toTime },
-    });
-    if (appointments.length > 0) {
+    
+    const appointments = await Logistic.findById(logisticId);
+    console.log(appointments)
+    if (appointments.available_space<req.body.value) {
       return res.status(200).send({
         message: "Containers not available",
         success: false,
