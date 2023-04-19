@@ -1,0 +1,64 @@
+/* Blue shades form */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-left: 20px; /* Add left margin */
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  width: 100%;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M.5 2l3 3 3-3V3l-3 3-3-3v-.5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 8px 10px;
+}
+
+textarea {
+  height: 8rem;
+}
+
+button[type="submit"] {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  background-color: #1c75bc;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #105f93;
+}
+
+div.error-message {
+  color: #ff3b3b;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,66 @@
+.container {
+    margin-top: 5rem;
+  }
+  
+  .card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+  
+  .card-header {
+    background-color: #0b4e91;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 1rem;
+  }
+  
+  .card-title {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .patient-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+  .patient-info label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #0b4e91;
+  }
+  
+  .patient-info p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+  
+  .back-btn {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .back-btn a {
+    color: #fff;
+    background-color: #0b4e91;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .back-btn a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  
