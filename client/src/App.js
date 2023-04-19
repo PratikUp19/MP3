@@ -19,6 +19,8 @@ import Patient from "./pages/Admin/Patient";
 import Patientlist from "./pages/Admin/Patientlist";
 import View from "./pages/Admin/View";
 import Update from "./pages/Admin/Update";
+import VerifyLink from "./pages/VerifyLink";
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -155,6 +157,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+        path="/verify/:id"
+        element={
+          <PublicRoute>
+            <VerifyLink />
+          </PublicRoute>
+        }
+      />
       </Routes>
     </BrowserRouter>
   );
