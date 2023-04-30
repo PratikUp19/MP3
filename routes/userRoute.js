@@ -2,11 +2,13 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
 const Logistic = require("../models/logisticModel");
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/authMiddleware");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
+const nodemailer=require('nodemailer')
 
 router.post("/register", async (req, res) => {
   try {
@@ -191,7 +193,20 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     const newAppointment = new Appointment(req.body);
     await newAppointment.save();
     const a = await Logistic.findById(req.body.logisticId);
-    console.log(req.body.required_space);
+    console.log("body")
+    console.log(req.body.logisticId);
+    
+    console.log(req.body.userId);
+    console.log("trader")
+    const trader=await User.findById(req.body.userId)
+    console.log(trader)
+    const email=trader.email
+    const logistics=await User.findById(a.userId)
+    const logisticEmail=logistics.email;
+    console.log("Logistic email")
+    console.log(logisticEmail)
+    
+
     // await Logistic.findOneAndUpdate(
     //   { userId: req.body.logisticId },
     //   {
@@ -234,6 +249,51 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
       onClickPath: "/logistic/appointments",
     });
     await user.save();
+   
+    
+   
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'sharvariypatil@gmail.com',
+        pass: 'uaqjawlmhiljnyup'
+      }
+    });
+    const message = {
+      from: 'sharvariypatil@gmail.com',
+      to: email,
+      subject: 'Booking',
+      text: `Dear ${req.body.userInfo.name},
+
+      Thank you for booking with [Company Name]. We are pleased to confirm your reservation for the following itinerary:
+      Booking ID: [Booking ID]
+      Logistic Name: ${req.body.logisticInfo.firstName}  ${req.body.logisticInfo.lastName}`
+    };
+    transporter.sendMail(message, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
+
+
+    const messageToLogistic = {
+      from: 'sharvariypatil@gmail.com',
+      to: logisticEmail,
+      subject: 'Booking',
+      text: `Text soch lo
+      `
+    };
+
+    transporter.sendMail(messageToLogistic, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
     res.status(200).send({
       message: "Container booked successfully",
       success: true,
@@ -293,5 +353,29 @@ router.get("/get-appointments-by-user-id", authMiddleware, async (req, res) => {
     });
   }
 });
+
+router.get('/get-profile/:userId', authMiddleware, async (req, res) => {
+  try {
+    
+    const userdata = await User.findById( req.params.userId );
+    console.log(req.params.userId)
+    console.log(userdata)
+    res.status(200).send({
+      message: "User's Profile",
+      success: true,
+      data: userdata,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Error fetching Profile",
+      success: false,
+      error,
+    });
+  }
+})
+
+
+
 
 module.exports = router;

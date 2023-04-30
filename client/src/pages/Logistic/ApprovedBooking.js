@@ -8,7 +8,7 @@ import { Table } from "antd";
 import moment from "moment";
 import { Dropdown, Menu } from 'antd';
 
-function LogisticAppointments() {
+function ApprovedBookings() {
   const [appointments, setAppointments] = useState([]);
   const dispatch = useDispatch();
   
@@ -17,7 +17,7 @@ function LogisticAppointments() {
     try {
       dispatch(showLoading());
       const resposne = await axios.get(
-        "/api/logistic/get-appointments-by-logistic-id",
+        "/api/logistic/get-approvedappointments-by-logistic-id",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -62,7 +62,7 @@ function LogisticAppointments() {
     {
       title: "Id",
        dataIndex: "_id",
-      
+      //render:(text,record)=><span>{record.userInfo._id}</span>
     },
     {
       title: "Patient",
@@ -93,23 +93,25 @@ function LogisticAppointments() {
       dataIndex: "actions",
       render: (text, record) => (
         <div className="d-flex">
-        {record.status === "pending" && (
-          <div className="d-flex">
-            <h1
-              className="anchor px-2"
-              onClick={() => changeAppointmentStatus(record, "approved")}
-            >
-              Approve
-            </h1>
-            <h1
-              className="anchor"
-              onClick={() => changeAppointmentStatus(record, "rejected")}
-            >
-              Reject
-            </h1>
-          </div>
-        )}
+          {record.status !== "rejected"&& record.status!=="pending" && (
+            <div className="d-flex">
             
+            <Dropdown.Button
+            overlay={
+              <Menu onClick={({key}) => changeAppointmentStatus(record, key)}>
+              
+               
+                <Menu.Item key="approved">Approved</Menu.Item>
+                <Menu.Item key="intransit">In Transit</Menu.Item>
+                <Menu.Item key="delivered">Delivered</Menu.Item>
+              </Menu>
+            }
+            trigger={['click']}
+          >
+          {record.status}
+          </Dropdown.Button>
+          </div>
+          )}
         </div>
       ),
     },
@@ -126,4 +128,4 @@ function LogisticAppointments() {
   );
 }
 
-export default LogisticAppointments;
+export default ApprovedBookings;

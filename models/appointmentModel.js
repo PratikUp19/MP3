@@ -42,6 +42,13 @@ const appointmentSchema = new mongoose.Schema(
       required: true,
       default: "pending",
     },
+    delivery:
+  {
+     type:Boolean,
+     required:true,
+     default:false,
+  }
+    
   },
   {
     timestamps: true,

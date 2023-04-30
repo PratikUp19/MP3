@@ -19,6 +19,10 @@ import Patient from "./pages/Admin/Patient";
 import Patientlist from "./pages/Admin/Patientlist";
 import View from "./pages/Admin/View";
 import Update from "./pages/Admin/Update";
+import Main from "./components/Main";
+import OrderStatus from "./pages/OrderTracking";
+import ApprovedBookings from "./pages/Logistic/ApprovedBooking";
+import TraderProfile from "./pages/TraderProfile";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -39,6 +43,13 @@ function App() {
           }
         />
 
+        <Route path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/register"
           element={
@@ -48,13 +59,21 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/show"
           element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
+            <PublicRoute>
+              <Main />
+            </PublicRoute>
           }
         />
+        <Route
+        path="/orderTracking"
+        element={
+          <PublicRoute>
+            <OrderStatus />
+          </PublicRoute>
+        }
+      />
         <Route
           path="/apply-logistic"
           element={
@@ -88,19 +107,19 @@ function App() {
             </ProtectedRoute>
           }
         />
-          <Route
+        <Route
           path="/view/:id"
           element={
             <ProtectedRoute>
-              <View/>
+              <View />
             </ProtectedRoute>
           }
         />
-            <Route
+        <Route
           path="/update/:id"
           element={
             <ProtectedRoute>
-              <Update/>
+              <Update />
             </ProtectedRoute>
           }
         />
@@ -120,7 +139,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/user/profile/:userId"
+          element={
+            <ProtectedRoute>
+              <TraderProfile />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/book-appointment/:logisticId"
           element={
@@ -137,7 +163,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-      
+
         <Route
           path="/logistic/appointments"
           element={
@@ -147,6 +173,14 @@ function App() {
           }
         />
 
+        <Route
+        path="/logistic/approved"
+        element={
+          <ProtectedRoute>
+            <ApprovedBookings />
+          </ProtectedRoute>
+        }
+      /> 
         <Route
           path="/register-patient"
           element={

@@ -7,7 +7,6 @@ import { Badge } from "antd";
 function Layout({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const { user } = useSelector((state) => state.user);
-
   const navigate = useNavigate();
   const location = useLocation();
   const userMenu = [
@@ -26,6 +25,13 @@ function Layout({ children }) {
       path: "/apply-logistic",
       icon: "ri-hospital-line",
     },
+{
+  name:"Profile",
+  path:`/user/profile/${user?._id}`,
+  icon: "ri-hospital-line",
+}
+
+    
   ];
 
   const logisticMenu = [
@@ -37,6 +43,11 @@ function Layout({ children }) {
     {
       name: "Containers-Booked",
       path: "/logistic/appointments",
+      icon: "ri-file-list-line",
+    },
+    {
+      name: "Approved Bookings",
+      path: "/logistic/approved",
       icon: "ri-file-list-line",
     },
     {

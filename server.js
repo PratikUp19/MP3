@@ -15,11 +15,13 @@ app.use(express.json());
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const logisticRoute = require("./routes/logisticRoute");
+const orderRoute = require("./routes/orderRoute");
 const path = require("path");
 
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/logistic", logisticRoute);
+app.use("/api/orders", orderRoute);
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static("client/build"));
