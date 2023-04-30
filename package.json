@@ -28,7 +28,11 @@
     "moment": "^2.29.3",
     "mongoose": "^6.10.5",
     "nodemailer": "^6.9.1",
+<<<<<<< HEAD
     "nodemon": "^2.0.16",
     "proxy": "http://localhost:5000"
+=======
+    "nodemon": "^2.0.16"
+>>>>>>> 28c0569f0045b2ebf22f64d5ba859c6e51d382e5
   }
 }

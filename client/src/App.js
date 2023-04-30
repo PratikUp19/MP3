@@ -19,10 +19,15 @@ import Patient from "./pages/Admin/Patient";
 import Patientlist from "./pages/Admin/Patientlist";
 import View from "./pages/Admin/View";
 import Update from "./pages/Admin/Update";
+<<<<<<< HEAD
 import Main from "./components/Main";
 import OrderStatus from "./pages/OrderTracking";
 import ApprovedBookings from "./pages/Logistic/ApprovedBooking";
 import TraderProfile from "./pages/TraderProfile";
+=======
+import VerifyLink from "./pages/VerifyLink";
+
+>>>>>>> 28c0569f0045b2ebf22f64d5ba859c6e51d382e5
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -189,6 +194,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+        path="/verify/:id"
+        element={
+          <PublicRoute>
+            <VerifyLink />
+          </PublicRoute>
+        }
+      />
       </Routes>
     </BrowserRouter>
   );
