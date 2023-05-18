@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { Table } from "antd";
-import moment from "moment";
+import '../TraderProfile.css'; 
+
 
 function TraderProfile() {
     const { user } = useSelector((state) => state.user);
@@ -47,10 +47,17 @@ function TraderProfile() {
         useEffect(() => {
           getTraderData();
         }, [params.userId]);
-  return  (<Layout>
-  <h1 >Profile</h1>
-  <h1>{trader.name}</h1>
-  <h1>{trader.email}</h1>
+  return  (
+    <Layout>
+
+    <div>
+    <h1>Profile</h1>
+    <div className="card">
+      <p  className="title">Name:{trader.name}</p>
+      
+      <p className="title">Email:{trader.email}</p>
+       </div>
+  </div>
 </Layout>
   )
 }

@@ -124,9 +124,6 @@ router.get(
             [Your Name]
             Customer Service Representative
             XYZ Logistics`
-         
-         
-         
           };
           transporter.sendMail(message, (error, info) => {
             if (error) {
