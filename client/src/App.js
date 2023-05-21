@@ -24,8 +24,9 @@ import Main from "./components/Main";
 import OrderStatus from "./pages/OrderTracking";
 import ApprovedBookings from "./pages/Logistic/ApprovedBooking";
 import TraderProfile from "./pages/TraderProfile";
-
 import VerifyLink from "./pages/VerifyLink";
+import Landing from "./components/Landing";
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -38,6 +39,7 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route
+        
           path="/login"
           element={
             <PublicRoute>
@@ -53,6 +55,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+       
         <Route
           path="/register"
           element={

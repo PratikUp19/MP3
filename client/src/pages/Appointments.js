@@ -41,6 +41,15 @@ function Appointments() {
       ),
     },
     {
+      title: "Required Space",
+      dataIndex: "space",
+      render: (text, record) => (
+        <span>
+          {record.required_space} 
+        </span>
+      ),
+    },
+    {
       title: "Phone",
       dataIndex: "phoneNumber",
       render: (text, record) => (

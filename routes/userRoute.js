@@ -9,7 +9,10 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
 const nodemailer=require('nodemailer')
+const { Mutex,Semaphore } = require('async-mutex');
 
+// Create a mutex to control access to available space check
+const spaceMutex = new Mutex();
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -355,20 +358,33 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     });
   }
 });
-
+const semaphore = new Semaphore(1);
 router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
+
     // console.log("1")
+   
     const logisticId = req.body.logisticId;
     
     const appointments = await Logistic.findById(logisticId);
     console.log(appointments)
+    
     if (appointments.available_space<req.body.value) {
+      
       return res.status(200).send({
         message: "Containers not available",
         success: false,
       });
+      
     } else {
+      Logistic.findById(req.body.logisticId, (err, doc) => {
+        if (err) {
+          console.error(err);
+          return;
+        }})
+      
+        // Update the document properties
+        doc.available_space =a.available_space-req.body.required_space;
       return res.status(200).send({
         message: "Containers available",
         success: true,
@@ -384,9 +400,13 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   }
 });
 
+
 router.get("/get-appointments-by-user-id", authMiddleware, async (req, res) => {
   try {
     const appointments = await Appointment.find({ userId: req.body.userId });
+    console.log("hello")
+    console.log(appointments)
+    console.log("Hello")
     res.status(200).send({
       message: "Containers fetched successfully",
       success: true,

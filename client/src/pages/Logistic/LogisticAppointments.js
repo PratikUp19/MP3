@@ -75,6 +75,11 @@ function LogisticAppointments() {
       render: (text, record) => <span>{record.logisticInfo.phoneNumber}</span>,
     },
     {
+      title: "Space",
+      dataIndex: "Space",
+      render: (text, record) => <span>{record.required_space}</span>,
+    },
+    {
       title: "Date & Time",
       dataIndex: "createdAt",
       render: (text, record) => (

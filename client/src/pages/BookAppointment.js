@@ -176,7 +176,10 @@ function BookAppointment() {
                 <b>Fee per Visit : </b>
                 {logistic.feePerkm}
               </p>
-              
+              <p>
+              <b>Availability : </b>
+              {logistic.available_space}
+            </p>
               <div className="d-flex flex-column pt-2 mt-2">
                 <DatePicker
                   format="DD-MM-YYYY"

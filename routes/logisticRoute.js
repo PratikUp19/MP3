@@ -61,8 +61,14 @@ router.get(
     // console.log(req.body)
     try {
       const logistic = await Logistic.findOne({ userId: req.body.userId });
+      
       // console.log(logistic.firstName)
       const appointments = await Appointment.find({ logisticId: logistic._id });
+      // console.log("logistics")
+      // console.log(logistic)
+      // console.log("Appointments")
+      // console.log(appointments)
+      // console.log("end")
       res.status(200).send({
         message: "Appointments fetched successfully",
         success: true,
@@ -87,10 +93,11 @@ router.get(
     try {
       const logistic = await Logistic.findOne({ userId: req.body.userId });
       const appointments = await Appointment.find({ logisticId: logistic._id });
+      
       // console.log(appointments)
       const value=[];     
       const statuses = appointments.map(async ( appointment) => {
-        console.log(appointment._id)
+        // console.log(appointment._id)
         if(appointment.status!="rejected"&&appointment.status!="pending")
         {
           value.push(appointment)
@@ -136,7 +143,7 @@ router.get(
         
           
       });
-     
+
       
       res.status(200).send({
         message: "Appointments fetched successfully",
@@ -157,11 +164,35 @@ router.get(
 router.post("/change-appointment-status", authMiddleware, async (req, res) => {
   try {
     // console.log(req.body.user);
+    // console.log("hello")
+    // console.log(req.body);
+    // console.log("hello")
     const { appointmentId, status } = req.body;
     const appointment = await Appointment.findByIdAndUpdate(appointmentId, {
       status,
     });
    console.log("status ",status);
+   console.log(appointment)
+
+   if(status=="rejected")
+   {
+    Logistic.findById(appointment.logisticId, (err, doc) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      
+      doc.available_space =doc.available_space+appointment.required_space;    
+      doc.save((err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+    
+        console.log('Document updated successfully!');
+      });
+    });
+   }
     const user = await User.findOne({ _id: appointment.userId });
     const unseenNotifications = user.unseenNotifications;
     unseenNotifications.push({
