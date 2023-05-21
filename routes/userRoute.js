@@ -376,14 +376,7 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
       });
       
     } else {
-      Logistic.findById(req.body.logisticId, (err, doc) => {
-        if (err) {
-          console.error(err);
-          return;
-        }})
-      
-        // Update the document properties
-        doc.available_space =a.available_space-req.body.required_space;
+     
       return res.status(200).send({
         message: "Containers available",
         success: true,
