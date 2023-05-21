@@ -363,7 +363,6 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
 
     // console.log("1")
-   
     const logisticId = req.body.logisticId;
     
     const appointments = await Logistic.findById(logisticId);
