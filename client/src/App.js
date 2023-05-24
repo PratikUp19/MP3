@@ -3,12 +3,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
+import HomeRoute from "./components/HomeRoute";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import ApplyLogistic from "./pages/ApplyLogistic";
 import Notifications from "./pages/Notifications";
+import Dashboard from "./pages/Dashboard";
+
 import Userslist from "./pages/Admin/Userslist";
 import LogisticsList from "./pages/Admin/LogisticsList";
 import Profile from "./pages/Logistic/Profile";
@@ -30,6 +33,22 @@ function App() {
       )}
       <Toaster position="top-center" reverseOrder={false} />
       <Routes>
+        <Route
+          path="/"
+          element={
+            <HomeRoute>
+              <Home />
+            </HomeRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <PublicRoute>
+              <Dashboard />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/login"
           element={
