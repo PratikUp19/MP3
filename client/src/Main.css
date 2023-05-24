@@ -16,7 +16,8 @@ nav {
   }
   
   li {
-    margin-right: 1rem;
+    margin-right: 5rem;
+    margin-left: 5rem;
   }
   
   a {
@@ -30,8 +31,9 @@ nav {
   a:hover {
     color: #f0f0f0;
   }
-  section{
-    background: url(imgs.png) no-repeat;
-    background-size: cover;
-    height: calc(100vh - 80px);
-}
+ 
+  .profile{
+    float: right;
+    right:0%;
+    margin-right: -10%;
+  }

@@ -1,0 +1,19 @@
+/* Home.css */
+
+.logistic-card {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .logistic-card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .logistic-card p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  

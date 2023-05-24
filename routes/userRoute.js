@@ -9,6 +9,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
 const nodemailer=require('nodemailer')
+const mongoose = require("mongoose");
 const { Mutex,Semaphore } = require('async-mutex');
 
 // Create a mutex to control access to available space check
@@ -299,10 +300,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
       message: `A new Booking request has been made by ${req.body.userInfo.name}`,
       onClickPath: "/logistic/appointments",
     });
-    await user.save();
-   
-    
-   
+    await user.save();   
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -327,9 +325,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
         console.log('Email sent: ' + info.response);
       }
     });
-
-
-
+  
     const messageToLogistic = {
       from: 'sharvariypatil@gmail.com',
       to: logisticEmail,
@@ -337,7 +333,6 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
       text: `Text soch lo
       `
     };
-
     transporter.sendMail(messageToLogistic, (error, info) => {
       if (error) {
         console.log(error);
@@ -358,7 +353,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     });
   }
 });
-const semaphore = new Semaphore(1);
+
 router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
 
@@ -367,20 +362,38 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
     
     const appointments = await Logistic.findById(logisticId);
     console.log(appointments)
-    
+    const originalValue = req.body.value;
     if (appointments.available_space<req.body.value) {
-      
       return res.status(200).send({
         message: "Containers not available",
         success: false,
       });
       
     } else {
-     
-      return res.status(200).send({
-        message: "Containers available",
-        success: true,
-      });
+     appointments.available_space-=originalValue;
+     appointments.save((err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('Checked Availibility!');
+    });
+    // setTimeout(() => {
+    //   appointments.available_space += originalValue;
+    //   console.log(originalValue);
+    //   console.log(appointments.available_space);
+    //   appointments.save((err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       return;
+    //     }
+    //     console.log('Reverted Changes');
+    //   });
+    // }, 2000);
+    return res.status(200).send({
+      message: "Containers available",
+      success: true,
+    });
     }
   } catch (error) {
     console.log(error);
@@ -391,6 +404,10 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
     });
   }
 });
+
+
+
+
 
 
 router.get("/get-appointments-by-user-id", authMiddleware, async (req, res) => {

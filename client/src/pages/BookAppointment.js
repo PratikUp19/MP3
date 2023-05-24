@@ -68,10 +68,12 @@ function BookAppointment() {
       dispatch(hideLoading());
     }
   };
+  
   const checkAvailability = async () => {
     try {
       dispatch(showLoading());
       // console.log(space);
+      // /api/user/check-booking-avilability 404 (Not Found)
       const response = await axios.post(
         "/api/user/check-booking-avilability",
         {
