@@ -81,38 +81,34 @@ function Layout({ children }) {
       ? logisticMenu
       : userMenu;
   const role = user?.isAdmin ? "Admin" : user?.isLogistic ? "Logistic" : "Trader";
+  const n=user?.name;
   return (
     <div className="header">
-
-    <nav className="navbar">
-    <li className="menu" >Hello {user.name}</li>
-    <ul className="menu">
-      {menuToBeRendered.map((item, index) => (
-        <li key={index} className="menu-item">
-          <a href={item.path} className="menu-link">
-            {item.name}
-          </a>
-        </li>
-      ))}
-      
-    </ul>
-   
-    <div className="logout">
-    <div
-    className={`d-flex menu-item `}
-    onClick={() => {
-      localStorage.clear();
-      navigate("/dashboard");
-    }}
-    >
-      <Link to="/dashboard">Logout</Link>
-    </div>
-    </div>
-  </nav>
-  
+      <nav className="navbar">
+        <ul className="menu">
+          <li className="menu-item">Hello {n}</li>
+          {menuToBeRendered.map((item, index) => (
+            <li key={index} className="menu-item">
+              <a href={item.path} className="menu-link">
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="logout">
+          <div
+            className={`d-flex menu-item `}
+            onClick={() => {
+              localStorage.clear();
+              navigate("/dashboard");
+            }}
+          >
+            <Link to="/dashboard">Logout</Link>
+          </div>
+        </div>
+      </nav>
       <div className="body">{children}</div>
     </div>
-
   );
 }
 
