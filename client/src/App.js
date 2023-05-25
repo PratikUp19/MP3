@@ -58,7 +58,14 @@ function App() {
             </PublicRoute>
           }
         />
-
+      <Route
+        path="/logistic/approved"
+        element={
+          <ProtectedRoute>
+            <ApprovedBookings />
+          </ProtectedRoute>
+        }
+      />
         <Route
           path="/register"
           element={
