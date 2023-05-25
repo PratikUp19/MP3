@@ -51,9 +51,9 @@ router.post("/register", async (req, res) => {
   //     console.log('Email sent: ' + info.response);
   //   }
   // });
-  //   res
-  //     .status(200)
-  //     .send({ message: "Verify Your mail", success: true });
+    res
+      .status(200)
+      .send({ message: "Verify Your mail", success: true });
   } catch (error) {
     console.log(error);
     res

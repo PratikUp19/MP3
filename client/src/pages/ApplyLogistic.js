@@ -54,12 +54,14 @@ function ApplyLogistic() {
 
   return (
     <Layout>
-      <h1 className="page-title">Apply Logistic</h1>
+      
       <div className="form-container">
         <div className="logistic-form">
-          <h1 className="page-title">Apply Logistic</h1>
+          <h1 className="page-title" style={{ textAlign: 'center' }}>Apply Logistic</h1>
           <hr />
-          <LogisticForm onFinish={onFinish} />
+          <div className="centered-form">
+      <LogisticForm onFinish={onFinish} />
+    </div>
         </div>
       </div>
     </Layout>
