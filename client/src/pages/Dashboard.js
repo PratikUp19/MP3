@@ -30,7 +30,7 @@ function Dashboard() {
       <li className="menu-item"><Link to="/register">Register</Link></li>
       </ul>
       
-      
+  
 
       <div>
         <div id="body">
