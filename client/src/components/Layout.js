@@ -85,7 +85,7 @@ function Layout({ children }) {
     <div className="header">
 
     <nav className="navbar">
-    <li className="menu" >Role:{role}</li>
+    <li className="menu" >Hello {user.name}</li>
     <ul className="menu">
       {menuToBeRendered.map((item, index) => (
         <li key={index} className="menu-item">

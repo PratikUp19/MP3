@@ -25,3 +25,13 @@
   font-size: 20px;
 
 }
+nav{
+  color: #ef4c00;
+}
+
+a{
+  color: #ef4c00;
+}
+a:hover{
+  color: rgb(97, 223, 54);
+}

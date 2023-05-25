@@ -22,6 +22,7 @@ import Patient from "./pages/Admin/Patient";
 import Patientlist from "./pages/Admin/Patientlist";
 import View from "./pages/Admin/View";
 import Update from "./pages/Admin/Update";
+import ApprovedBookings from "./pages/Logistic/ApprovedBooking";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -165,6 +166,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+        path="/logistic/approved"
+        element={
+          <ProtectedRoute>
+            <ApprovedBookings />
+          </ProtectedRoute>
+        }
+      /> 
 
         <Route
           path="/register-patient"
