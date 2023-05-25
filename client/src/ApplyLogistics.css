@@ -1,0 +1,13 @@
+/* ApplyLogistic.css */
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .logistic-form {
+    width: 400px;
+  }
+  

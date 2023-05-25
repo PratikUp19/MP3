@@ -5,7 +5,7 @@ import { Col, Row } from "antd";
 import Logistic from "../components/Logistic";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/alertsSlice";
-
+import "../Home.css";
 function Home() {
   const [logistics, setLogistics] = useState([]);
   const dispatch = useDispatch();
@@ -37,9 +37,9 @@ function Home() {
         {logistics.map((logistic) => (
           <Col key={logistic.id} span={8} xs={24} sm={24} lg={8}>
             
-            <Logistic 
-            
-            logistic={logistic} />
+          <div className="logistic-card">
+          <Logistic logistic={logistic} />
+        </div>
           </Col>
         ))}
       </Row>

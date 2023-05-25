@@ -9,15 +9,40 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import LogisticForm from "../components/LogisticForm";
 import moment from "moment";
 
+
+// const Logistic = require("MP3\models\logisticModel.js");
+  
+
+
 function BookAppointment() {
   const [isAvailable, setIsAvailable] = useState(false);
   const navigate = useNavigate();
   const [date, setDate] = useState();
+  // const [space, setSpace] = useState();
+ 
   const [time, setTime] = useState();
   const { user } = useSelector((state) => state.user);
   const [logistic, setLogistic] = useState(null);
   const params = useParams();
   const dispatch = useDispatch();
+
+  const [value, setValue] = useState('');
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  }
+
+  const [source, setSource] = useState('');
+
+  const handleChangeSource = (event) => {
+    setSource(event.target.value);
+  }
+
+  const [destination, setDestination] = useState('');
+
+  const handleChangeDestination = (event) => {
+    setDestination(event.target.value);
+  }
 
   const getLogisticData = async () => {
     try {
@@ -43,15 +68,22 @@ function BookAppointment() {
       dispatch(hideLoading());
     }
   };
+  
   const checkAvailability = async () => {
     try {
       dispatch(showLoading());
+      // console.log(space);
+      // /api/user/check-booking-avilability 404 (Not Found)
       const response = await axios.post(
         "/api/user/check-booking-avilability",
         {
           logisticId: params.logisticId,
           date: date,
           time: time,
+          value: value,
+          // required_space: space,
+          source: source,
+          destination: destination
         },
         {
           headers: {
@@ -84,6 +116,10 @@ function BookAppointment() {
           userInfo: user,
           date: date,
           time: time,
+          required_space: value,
+          source: source,
+          destination: destination
+          
         },
         {
           headers: {
@@ -95,6 +131,7 @@ function BookAppointment() {
       dispatch(hideLoading());
       if (response.data.success) {
         
+
         toast.success(response.data.message);
         navigate('/appointments')
       }
@@ -141,7 +178,10 @@ function BookAppointment() {
                 <b>Fee per Visit : </b>
                 {logistic.feePerkm}
               </p>
-              
+              <p>
+              <b>Availability : </b>
+              {logistic.available_space}
+            </p>
               <div className="d-flex flex-column pt-2 mt-2">
                 <DatePicker
                   format="DD-MM-YYYY"
@@ -158,6 +198,44 @@ function BookAppointment() {
                     setTime(moment(value).format("HH:mm"));
                   }}
                 />
+                <label htmlFor="input-field">Required Space:</label>
+                <input type="number" id="input-field" value={value} onChange={handleChange} />
+
+                <label htmlFor="source">Source:</label>
+                <input type="text" id="source" value={source} onChange={handleChangeSource} />
+
+                <label htmlFor="destination">Destination:</label>
+                <input type="text" id="destination" value={destination} onChange={handleChangeDestination} />
+
+
+                {/* <Input
+                  type="number"
+                  className="mt-3"
+                  onChange={(value) => {
+                    setIsAvailable(false);
+                    console.log (value)
+                    setSpace(value);
+                  }}
+                  
+                />
+                <Input
+                  type="text"
+                  className="mt-3"
+                  onChange={(value) => {
+                    setIsAvailable(false);
+                    setSource(value);
+                  }}
+                  
+                />
+                <Input
+                  type="text"
+                  className="mt-3"
+                  onChange={(value) => {
+                    setIsAvailable(false);
+                    setDestination(moment(value));
+                  }}
+                  
+                /> */}
               {!isAvailable &&   <Button
                   className="primary-button mt-3 full-width-button"
                   onClick={checkAvailability}

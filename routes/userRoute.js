@@ -2,13 +2,20 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
 const Logistic = require("../models/logisticModel");
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/authMiddleware");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
+const nodemailer=require('nodemailer')
+const mongoose = require("mongoose");
+const { Mutex,Semaphore } = require('async-mutex');
 
+// Create a mutex to control access to available space check
+const spaceMutex = new Mutex();
 router.post("/register", async (req, res) => {
+  const { email, password } = req.body;
   try {
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) {
@@ -21,17 +28,66 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     req.body.password = hashedPassword;
     const newuser = new User(req.body);
-    await newuser.save();
-    res
-      .status(200)
-      .send({ message: "User created successfully", success: true });
+    const user=await newuser.save();
+  //   const transporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: 'sharvariypatil@gmail.com',
+  //     pass: 'uaqjawlmhiljnyup'
+  //   }
+  // });
+
+  // const message = {
+  //   from: 'sharvariypatil@gmail.com',
+  //   to: email,
+  //   subject: 'Email Verification',
+  //   text: `Hi ${email}, please verify your email address by clicking on this link: http://localhost:3000/verify/${user._id}`
+  // };
+
+  // transporter.sendMail(message, (error, info) => {
+  //   if (error) {
+  //     console.log(error);
+  //   } else {
+  //     console.log('Email sent: ' + info.response);
+  //   }
+  // });
+  //   res
+  //     .status(200)
+  //     .send({ message: "Verify Your mail", success: true });
   } catch (error) {
     console.log(error);
     res
       .status(500)
       .send({ message: "Error creating user", success: false, error });
   }
+}
+
+);
+
+router.get('/verify/:token', async (req, res) => {
+  const { token } = req.params;
+  
+  try {
+    // Find the user with the matching verification token
+    const user = await User.findOne({ _id: token });
+   
+    
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid verification token.' });
+    }
+
+    // Update the user's verification status
+    user.is_verified = true;
+    // user.verificationToken = undefined;
+    await user.save();
+
+    res.status(200).json({ message: 'Email address verified successfully.' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed to verify email address.' });
+  }
 });
+
 
 router.post("/login", async (req, res) => {
   try {
@@ -187,8 +243,58 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     req.body.status = "pending";
     req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
     req.body.time = moment(req.body.time, "HH:mm").toISOString();
+    // console.log(req.body);
     const newAppointment = new Appointment(req.body);
     await newAppointment.save();
+    const a = await Logistic.findById(req.body.logisticId);
+    console.log("body")
+    console.log(req.body.logisticId);
+    
+    console.log(req.body.userId);
+    console.log("trader")
+    const trader=await User.findById(req.body.userId)
+    console.log(trader)
+    const email=trader.email
+    const logistics=await User.findById(a.userId)
+    const logisticEmail=logistics.email;
+    console.log("Logistic email")
+    console.log(logisticEmail)
+    
+
+    // await Logistic.findOneAndUpdate(
+    //   { userId: req.body.logisticId },
+    //   {
+    //     firstName: a.firstName,
+    //     lastName: a.lastName,
+    //     phoneNumber: a.phoneNumber,
+    //     source: a.source,
+    //     destination: a.destination,
+    //     description: a.description,
+    //     feePerkm: a.feePerkm,
+    //     deparaturAndArrival_timings: a.deparaturAndArrival_timings,
+    //     available_space: 7
+    //   }
+    // );
+  Logistic.findById(req.body.logisticId, (err, doc) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  // Update the document properties
+  doc.available_space =a.available_space-req.body.required_space;
+
+  // Save the updated document
+  doc.save((err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    console.log('Document updated successfully!');
+  });
+});
+
     //pushing notification to logistic based on his userid
     const user = await User.findOne({ _id: req.body.logisticInfo.userId });
     user.unseenNotifications.push({
@@ -196,7 +302,46 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
       message: `A new Booking request has been made by ${req.body.userInfo.name}`,
       onClickPath: "/logistic/appointments",
     });
-    await user.save();
+    await user.save();   
+    // const transporter = nodemailer.createTransport({
+    //   service: 'gmail',
+    //   auth: {
+    //     user: 'sharvariypatil@gmail.com',
+    //     pass: 'uaqjawlmhiljnyup'
+    //   }
+    // });
+    // const message = {
+    //   from: 'sharvariypatil@gmail.com',
+    //   to: email,
+    //   subject: 'Booking',
+    //   text: `Dear ${req.body.userInfo.name},
+
+    //   Thank you for booking with [Company Name]. We are pleased to confirm your reservation for the following itinerary:
+    //   Booking ID: [Booking ID]
+    //   Logistic Name: ${req.body.logisticInfo.firstName}  ${req.body.logisticInfo.lastName}`
+    // };
+    // transporter.sendMail(message, (error, info) => {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log('Email sent: ' + info.response);
+    //   }
+    // });
+  
+    // const messageToLogistic = {
+    //   from: 'sharvariypatil@gmail.com',
+    //   to: logisticEmail,
+    //   subject: 'Booking',
+    //   text: `Text soch lo
+    //   `
+    // };
+    // transporter.sendMail(messageToLogistic, (error, info) => {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log('Email sent: ' + info.response);
+    //   }
+    // });
     res.status(200).send({
       message: "Container booked successfully",
       success: true,
@@ -213,27 +358,44 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
 
 router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
-    const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
-    const fromTime = moment(req.body.time, "HH:mm")
-      .subtract(1, "hours")
-      .toISOString();
-    const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
+
+    // console.log("1")
     const logisticId = req.body.logisticId;
-    const appointments = await Appointment.find({
-      logisticId,
-      date,
-      time: { $gte: fromTime, $lte: toTime },
-    });
-    if (appointments.length > 0) {
+    
+    const appointments = await Logistic.findById(logisticId);
+    console.log(appointments)
+    const originalValue = req.body.value;
+    if (appointments.available_space<req.body.value) {
       return res.status(200).send({
         message: "Containers not available",
         success: false,
       });
+      
     } else {
-      return res.status(200).send({
-        message: "Containers available",
-        success: true,
-      });
+     appointments.available_space-=originalValue;
+     appointments.save((err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('Checked Availibility!');
+    });
+    // setTimeout(() => {
+    //   appointments.available_space += originalValue;
+    //   console.log(originalValue);
+    //   console.log(appointments.available_space);
+    //   appointments.save((err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       return;
+    //     }
+    //     console.log('Reverted Changes');
+    //   });
+    // }, 2000);
+    return res.status(200).send({
+      message: "Containers available",
+      success: true,
+    });
     }
   } catch (error) {
     console.log(error);
@@ -245,9 +407,17 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   }
 });
 
+
+
+
+
+
 router.get("/get-appointments-by-user-id", authMiddleware, async (req, res) => {
   try {
     const appointments = await Appointment.find({ userId: req.body.userId });
+    console.log("hello")
+    console.log(appointments)
+    console.log("Hello")
     res.status(200).send({
       message: "Containers fetched successfully",
       success: true,
@@ -262,5 +432,29 @@ router.get("/get-appointments-by-user-id", authMiddleware, async (req, res) => {
     });
   }
 });
+
+router.get('/get-profile/:userId', authMiddleware, async (req, res) => {
+  try {
+    
+    const userdata = await User.findById( req.params.userId );
+    console.log(req.params.userId)
+    console.log(userdata)
+    res.status(200).send({
+      message: "User's Profile",
+      success: true,
+      data: userdata,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Error fetching Profile",
+      success: false,
+      error,
+    });
+  }
+})
+
+
+
 
 module.exports = router;

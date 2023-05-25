@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LogisticForm from "../components/LogisticForm";
 import moment from "moment";
+import "../ApplyLogistics.css";
 
 function ApplyLogistic() {
   const dispatch = useDispatch();
@@ -54,9 +55,13 @@ function ApplyLogistic() {
   return (
     <Layout>
       <h1 className="page-title">Apply Logistic</h1>
-      <hr />
-
-      <LogisticForm onFinish={onFinish} />
+      <div className="form-container">
+        <div className="logistic-form">
+          <h1 className="page-title">Apply Logistic</h1>
+          <hr />
+          <LogisticForm onFinish={onFinish} />
+        </div>
+      </div>
     </Layout>
   );
 }

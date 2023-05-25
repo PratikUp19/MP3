@@ -12,7 +12,7 @@
     margin-top:-20px ;
 }
 .sidebar{
-    background-color: #ef4c00;
+    background-color: #bdd10f;
     border-radius: 5px;
     box-shadow: 0 0 2px gray;
     margin-right: 20px;
@@ -46,16 +46,18 @@
 
 
 .menu{
-    margin-top: 100px;
-    padding: 0 10px;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .menu-item{
-    margin-top: 30px;
+    margin-left: 10px;
 }
 
 .menu-item a{
-    color: rgba(255, 255, 255, 0.727);
+    color: rgba(224, 35, 35, 0.727);
     text-decoration: none;
     font-size: 18px;
     padding: 0 10px;
@@ -72,8 +74,11 @@
     background-color: #000000;
     padding: 5px;
     border-radius: 5px;
+  
 }
-
+.navbar {
+    display: flex;
+  }
 .header-action-icon{
     font-size: 30px;
     color: black !important;

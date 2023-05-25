@@ -1,27 +1,11 @@
 const mongoose = require("mongoose");
-const appointmentSchema = new mongoose.Schema(
+const temperory = new mongoose.Schema(
   {
     userId: {
       type: String,
       required: true,
     },
     logisticId: {
-      type: String,
-      required: true,
-    },
-    logisticInfo: {
-      type: Object,
-      required: true,
-    },
-    userInfo: {
-      type: Object,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-    time: {
       type: String,
       required: true,
     },
@@ -42,18 +26,11 @@ const appointmentSchema = new mongoose.Schema(
       required: true,
       default: "pending",
     },
-    delivery:
-  {
-     type:Boolean,
-     required:true,
-     default:false,
-  }
-    
   },
   {
     timestamps: true,
   }
 );
 
-const appointmentModel = mongoose.model("appointmenst", appointmentSchema);
-module.exports = appointmentModel;
+const temperoryBooking = mongoose.model("temperory", temperory);
+module.exports = temperoryBooking;

@@ -17,8 +17,11 @@ function Login() {
       if (response.data.success) {
         toast.success(response.data.message);
         localStorage.setItem("token", response.data.data);
-        navigate("/");
+        console.log(response.data.data)
+        navigate("/register")
+        // navigate("/show");
       } else {
+        console.log(response.data.message);
         toast.error(response.data.message);
       }
     } catch (error) {
@@ -28,6 +31,7 @@ function Login() {
   };
 
   return (
+    
     <div className="authentication">
       <div className="authentication-form card p-3">
         <h1 className="card-title">Welcome Back</h1>
