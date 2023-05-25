@@ -98,6 +98,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import LogisticForm from "../../components/LogisticForm";
 import moment from "moment";
+import "./Profile.css";
 
 function Profile() {
   const { user } = useSelector((state) => state.user);
@@ -167,9 +168,10 @@ function Profile() {
   }, []);
   return (
     <Layout>
-      <h1 className="page-title">Logistic Profile</h1>
+      <h1 className="page-title" style={{ textAlign: 'center' }}>Logistic Profile</h1>
       <hr />
-      {logistic && <LogisticForm onFinish={onFinish} initivalValues={logistic} />}
+      <div className="centered-form">
+      {logistic && <LogisticForm onFinish={onFinish} initivalValues={logistic} />}</div>
     </Layout>
   );
 }
