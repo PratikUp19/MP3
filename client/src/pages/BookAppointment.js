@@ -74,15 +74,12 @@ function BookAppointment() {
       dispatch(showLoading());
       // console.log(space);
       // /api/user/check-booking-avilability 404 (Not Found)
-      const currentTime = moment().format('HH:mm');
-
-      const currentDate = moment().format('YYYY-MM-DD');
       const response = await axios.post(
         "/api/user/check-booking-avilability",
         {
           logisticId: params.logisticId,
-          date: currentDate,
-          time: currentTime,
+          date: date,
+          time: time,
           value: value,
           // required_space: space,
           source: source,
@@ -107,9 +104,6 @@ function BookAppointment() {
     }
   };
   const bookNow = async () => {
-    const currentTime = moment().format('HH:mm');
-
-      const currentDate = moment().format('YYYY-MM-DD');
     setIsAvailable(false);
     try {
       dispatch(showLoading());
@@ -120,8 +114,8 @@ function BookAppointment() {
           userId: user._id,
           logisticInfo: logistic,
           userInfo: user,
-          date: currentDate,
-          time: currentTime,
+          date: date,
+          time: time,
           required_space: value,
           source: source,
           destination: destination
@@ -189,7 +183,7 @@ function BookAppointment() {
               {logistic.available_space}
             </p>
               <div className="d-flex flex-column pt-2 mt-2">
-                {/* <DatePicker
+                <DatePicker
                   format="DD-MM-YYYY"
                   onChange={(value) => {
                     setDate(moment(value).format("DD-MM-YYYY"));
@@ -203,7 +197,7 @@ function BookAppointment() {
                     setIsAvailable(false);
                     setTime(moment(value).format("HH:mm"));
                   }}
-                /> */}
+                />
                 <label htmlFor="input-field">Required Space:</label>
                 <input type="number" id="input-field" value={value} onChange={handleChange} />
 
