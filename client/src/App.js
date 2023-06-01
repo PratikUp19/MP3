@@ -18,8 +18,6 @@ import Profile from "./pages/Logistic/Profile";
 import BookAppointment from "./pages/BookAppointment";
 import Appointments from "./pages/Appointments";
 import LogisticAppointments from "./pages/Logistic/LogisticAppointments";
-import Patient from "./pages/Admin/Patient";
-import Patientlist from "./pages/Admin/Patientlist";
 import View from "./pages/Admin/View";
 import Update from "./pages/Admin/Update";
 import ApprovedBookings from "./pages/Logistic/ApprovedBooking";
@@ -131,14 +129,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/search-patient"
-          element={
-            <ProtectedRoute>
-              <Patientlist />
-            </ProtectedRoute>
-          }
-        />
+        
         <Route
           path="/logistic/profile/:userId"
           element={
@@ -182,14 +173,7 @@ function App() {
         }
       /> 
 
-        <Route
-          path="/register-patient"
-          element={
-            <ProtectedRoute>
-              <Patient />
-            </ProtectedRoute>
-          }
-        />
+      
       </Routes>
     </BrowserRouter>
   );

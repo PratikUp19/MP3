@@ -178,7 +178,7 @@ function BookAppointment() {
               </p>
               <p>
                 <b>Address : </b>
-                {logistic.address}
+                {logistic.description}
               </p>
               <p>
                 <b>Fee per Visit : </b>

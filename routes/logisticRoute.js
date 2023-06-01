@@ -93,8 +93,8 @@ router.get(
     try {
       const logistic = await Logistic.findOne({ userId: req.body.userId });
       const appointments = await Appointment.find({ logisticId: logistic._id });
-      
-      // console.log(appointments)
+      console.log("apo")
+      console.log(appointments)
       const value=[];     
       const statuses = appointments.map(async ( appointment) => {
         // console.log(appointment._id)
@@ -106,6 +106,20 @@ router.get(
         if(appointment.status==="delivered"&&appointment.delivery===false)
         { 
           
+          const space=appointment.required_space;
+          const availbale=logistic.available_space
+          console.log("available")
+          console.log(availbale)
+          // console.log("space");
+          // console.log(space);
+          logistic.available_space+=space;
+          logistic.save((err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log('Space added');
+          });
          const a=await Appointment.findByIdAndUpdate(appointment._id, {
             delivery:true,
           }, { new: true });
@@ -122,13 +136,13 @@ router.get(
             subject: 'Booking',
             text: `Dear ${appointment.userInfo.name},
 
-            We are pleased to inform you that your package with tracking number [Tracking Number] has been successfully delivered to the address you provided.
+            We are pleased to inform you that your package with tracking number ${appointment._id} has been successfully delivered to the address you provided.
             
             We hope that the package arrived in good condition and that you are satisfied with the service provided by our Logistics. If you have any feedback or concerns regarding your package delivery, please feel free to contact us at [Contact Information].
             Thank you for choosing XYZ Logistics for your package delivery needs. We look forward to serving you again in the future.
             Best regards,
             
-            [Your Name]
+           
             Customer Service Representative
             XYZ Logistics`
           };

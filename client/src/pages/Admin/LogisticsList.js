@@ -26,7 +26,7 @@ function LogisticsList() {
       dispatch(hideLoading());
     }
   };
-
+  
   const changeLogisticStatus = async (record, status) => {
     try {
       dispatch(showLoading());
@@ -66,17 +66,18 @@ function LogisticsList() {
       title: "Phone",
       dataIndex: "phoneNumber",
     },
-    {
-  title: "Created At",
-  dataIndex: "createdAt",
-  render: (record , text) => {
-    if (record && record.createdAt) {
-      return moment(record.createdAt).format("DD-MM-YYYY");
-    } else {
-      return "";
-    }
-  },
-},
+//     {
+//   title: "Created At",
+//   dataIndex: "createdAt",
+//   render: (record , text) => {
+//     if (record && record.createdAt) {
+//       return moment(record.createdAt).format("DD-MM-YYYY");
+//     } else {
+//       return "";
+//     }
+//   },
+// },
+
 
     {
       title: "status",
@@ -88,11 +89,17 @@ function LogisticsList() {
       render: (text, record) => (
         <div className="d-flex">
           {record.status === "pending" && (
-            <h1
+            <h1 style={{ marginRight: '10px' }}
               className="anchor"
               onClick={() => changeLogisticStatus(record, "approved")}
             >
               Approve
+            </h1>
+          )}
+          {record.status === "pending" && (
+            <h1 style={{ marginRight: '10px' }}
+              className="anchor">
+              Reject
             </h1>
           )}
           {record.status === "approved" && (

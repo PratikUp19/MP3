@@ -1,67 +1,31 @@
-/* ApplyLogistic.css */
-
-/* .form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-*/  
- .page-title
- {
-    justify-content: center;
-    align-items: center;
- }
-  .logistic-form {
-    width: 8000px;
-  }
-    .centered-form {
-      display: flex;
-      justify-content: center;
-    }
-   
-
 .form-container {
-  /* margin-top: 20px; */
   display: flex;
-    justify-content: center;
-    align-items: center;
+  flex-wrap: wrap;
+}
+
+.logistic-form {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.logistic-form h1 {
+  text-align: center;
+}
+
+.centered-form {
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 .form-container .ant-form-item {
+  flex: 1;
+  margin-right: 20px;
   margin-bottom: 20px;
 }
 
-.form-container .ant-form-item-label {
-  text-align: left;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.form-container .ant-input {
-  width: 100%;
-}
-
-.form-container .ant-time-picker {
-  width: 100%;
-}
-
-.form-container .d-flex {
-  display: flex;
-}
-
-.form-container .justify-content-end {
-  justify-content: flex-end;
-}
-
-.form-container .primary-button {
-  background-color: #1890ff;
-  color: #fff;
-  border-color: #1890ff;
-  margin-top: 10px;
-}
-
-.form-container .primary-button:hover {
-  background-color: #40a9ff;
-  border-color: #40a9ff;
+@media (max-width: 768px) {
+  .form-container .ant-form-item {
+    margin-right: 0;
+  }
 }

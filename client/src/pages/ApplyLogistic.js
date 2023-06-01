@@ -60,7 +60,7 @@ function ApplyLogistic() {
           <h1 className="page-title" style={{ textAlign: 'center' }}>Apply Logistic</h1>
           <hr />
           <div className="centered-form">
-      <LogisticForm onFinish={onFinish} />
+      <LogisticForm onFinish={onFinish}/>
     </div>
         </div>
       </div>

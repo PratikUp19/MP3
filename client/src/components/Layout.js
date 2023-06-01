@@ -16,7 +16,7 @@ function Layout({ children }) {
       icon: "ri-home-line",
     },
     {
-      name: "Book a Container",
+      name: "Containers Booked",
       path: "/appointments",
       icon: "ri-file-list-line",
     },
@@ -25,11 +25,11 @@ function Layout({ children }) {
       path: "/apply-logistic",
       icon: "ri-hospital-line",
     },
-    {
-      name: "Profile",
-      path: `/user/profile/${user?._id}`,
-      icon: "ri-hospital-line",
-    }
+    // {
+    //   name: "Profile",
+    //   path: `/user/profile/${user?._id}`,
+    //   icon: "ri-hospital-line",
+    // }
   ];
 
 
@@ -72,7 +72,7 @@ function Layout({ children }) {
       path: "/admin/logisticslist",
       icon: "ri-user-star-line",
     },
-    
+
   ];
 
   const menuToBeRendered = user?.isAdmin
@@ -81,7 +81,7 @@ function Layout({ children }) {
       ? logisticMenu
       : userMenu;
   const role = user?.isAdmin ? "Admin" : user?.isLogistic ? "Logistic" : "Trader";
-  const n=user?.name;
+  const n = user?.name;
   return (
     <div className="header">
       <nav className="navbar">
@@ -96,14 +96,22 @@ function Layout({ children }) {
           ))}
         </ul>
         <div className="logout">
-          <div
+          
+          </div>
+          <div className="d-flex align-items-center px-4">
+           
+              <Badge count={user?.unseenNotifications.length} onClick={() => navigate("/notifications")}>
+                <i className="ri-notification-line header-action-icon" style={{ fontSize: '24px' }}></i>
+              </Badge>
+              <div
             className={`d-flex menu-item `}
             onClick={() => {
               localStorage.clear();
               navigate("/dashboard");
             }}
           >
-            <Link to="/dashboard">Logout</Link>
+          <Link to="/dashboard" className="ml-3">Logout</Link>
+            
           </div>
         </div>
       </nav>

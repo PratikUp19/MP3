@@ -13,12 +13,11 @@ function Logistic({ logistic }) {
       <h1 className="card-title">
         {logistic.firstName} {logistic.lastName}
       </h1>
-      <hr />
+      <hr/>
       <p>
         <b>Phone Number : </b>
         {logistic.phoneNumber}
       </p>
-      
       <p>
         <b>Fee per Visit : </b>
         {logistic.feePerkm}

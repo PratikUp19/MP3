@@ -7,8 +7,10 @@
   /* Customize the navbar */
   
   *{
+
     font-family: 'Times New Roman', Times, serif;
   }
+  
   .menu {
     list-style: none;
     display: flex;
@@ -71,6 +73,8 @@
     position: absolute;
     left: 40%;
     top: -92px;
+    width: 200px; /* Adjust the value as needed */
+  height: auto;
 }
 .container_image img{
     min-height: 55em;
@@ -105,6 +109,28 @@
 .hero_text h3{
     padding-top: 35px;
 }
+/* Footer.css */
+
+.footer {
+  margin-top: 220px;
+  padding: 40px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+
+.footer-bottom {
+  background-color: rgb(255, 102, 0);
+  padding: 10px 0;
+  text-align: center;
+}
+
+
 
   @keyframes three-body__bounce {
     0%,
